@@ -29,7 +29,7 @@ export default function Home() {
       <p className={styles.title}>Como utilizar Hooks</p>
       <p className={styles.subtitle}>Tudo sobre como criar a sua primeira aplicação utilizando Create React App</p>
       <div className={styles.footer}>
-        <span><AiOutlineCalendar /> 19 abr 2021</span>
+        <span><AiOutlineCalendar/>19 abr 2021</span>
         <span><AiOutlineUser />Clau Souza</span>
       </div>
     </div>

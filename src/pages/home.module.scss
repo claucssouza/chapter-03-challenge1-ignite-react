@@ -16,5 +16,10 @@
     color: var(--gray-300);
     font-size: 14px;
     width: 20%;
-    border:1px solid #FFF;
+        
+    span + span {
+        svg {
+            margin-left: 1rem;
+        }
+    }
 }
