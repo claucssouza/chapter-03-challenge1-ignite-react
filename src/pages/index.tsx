@@ -1,8 +1,11 @@
 import { GetStaticProps } from 'next';
 import { getPrismicClient } from '../services/prismic';
+import { RichText } from 'prismic-dom';
+import Prismic from '@prismicio/client';
+import { AiOutlineCalendar, AiOutlineUser } from 'react-icons/ai';
 import commonStyles from '../styles/common.module.scss';
 import styles from './home.module.scss';
-import { AiOutlineCalendar, AiOutlineUser } from 'react-icons/ai';
+
 
 interface Post {
   uid?: string;
@@ -23,22 +26,53 @@ interface HomeProps {
   postsPagination: PostPagination;
 }
 
-export default function Home() {
+export default function Home(results: HomeProps) {
+  const { postsPagination } = results;
+
   return (
     <div className={commonStyles.contentContainer}>
-      <p className={styles.title}>Como utilizar Hooks</p>
-      <p className={styles.subtitle}>Tudo sobre como criar a sua primeira aplicação utilizando Create React App</p>
-      <div className={styles.footer}>
-        <span><AiOutlineCalendar/>19 abr 2021</span>
-        <span><AiOutlineUser />Clau Souza</span>
-      </div>
+      {postsPagination.map(post => (
+        <>
+          <p className={styles.title}>{post.title}</p>
+          <p className={styles.subtitle}>{post.subtitle}</p>
+          <div className={styles.footer}>
+            <span><AiOutlineCalendar />{post.updatedAt}</span>
+            <span><AiOutlineUser />{post.author}</span>
+          </div>
+        </>
+      ))}
     </div>
   );
 }
 
-// export const getStaticProps = async () => {
-//   // const prismic = getPrismicClient();
-//   // const postsResponse = await prismic.query(TODO);
+export const getStaticProps: GetStaticProps = async () => {
+  const prismic = getPrismicClient();
+  const postsResponse = await prismic.query([
+    Prismic.predicates.at('document.type', 'posts')
+  ], {
+    fetch: ['posts.title', 'posts.subtitle', 'posts.author', 'posts.uid', 'posts.first_publication_date'],
+    pageSize: 10
+  });
 
-//   // TODO
-// };
+  console.log(postsResponse);
+
+  const postsPagination = postsResponse.results.map((post: Post) => {
+    return {
+      slug: post.uid,
+      title: post.data.title,
+      subtitle: post.data.subtitle,
+      author: post.data.author,
+      updatedAt: new Date(post.first_publication_date).toLocaleDateString('pt-BR', {
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric'
+      })
+    }
+  });
+
+  return {
+    props: {
+      postsPagination
+    }
+  }
+};
