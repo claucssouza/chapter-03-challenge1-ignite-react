@@ -26,7 +26,7 @@ interface Post {
     uid: string;
     title: string;
     banner: {
-      url: string;
+      url: string | null;
     };
     author: string;
     content: {
@@ -179,7 +179,6 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const { slug } = params;
   const prismic = getPrismicClient();
   const response = await prismic.getByUID('posts', String(slug), {});
-  console.log(response, 'responses', params);
   const wasEdited =
     response.last_publication_date > response.first_publication_date;
 
@@ -209,7 +208,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       title: response.data.title,
       subtitle: response.data.subtitle,
       banner: {
-        url: response.data.banner.url,
+        url: response.data.banner.url ?? null,
       },
       author: response.data.author,
       content: response.data.content.map(content => {
