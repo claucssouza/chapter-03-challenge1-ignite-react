@@ -2,7 +2,6 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { GetStaticPropsContext } from 'next';
 import { ParsedUrlQuery } from 'querystring';
 import { RouterContext } from 'next/dist/next-server/lib/router-context';
-
 import { getPrismicClient } from '../../services/prismic';
 import App, { getStaticProps } from '../../pages';
 
@@ -34,7 +33,7 @@ const mockedQueryReturn = {
   results: [
     {
       uid: 'como-utilizar-hooks',
-      first_publication_date: '2021-03-15T19:25:28+0000',
+      first_publication_date: '15 mar 2021',
       data: {
         title: 'Como utilizar Hooks',
         subtitle: 'Pensando em sincronização em vez de ciclos de vida',
@@ -43,7 +42,7 @@ const mockedQueryReturn = {
     },
     {
       uid: 'criando-um-app-cra-do-zero',
-      first_publication_date: '2021-03-25T19:27:35+0000',
+      first_publication_date: '15 mar 2022',
       data: {
         title: 'Criando um app CRA do zero',
         subtitle:
@@ -156,6 +155,7 @@ describe('Home', () => {
 
     fireEvent.click(firstPostTitle);
     fireEvent.click(secondPostTitle);
+
 
     expect(mockedPush).toHaveBeenNthCalledWith(
       1,
