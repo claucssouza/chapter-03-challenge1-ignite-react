@@ -52,7 +52,7 @@ export default function Post({
   }, 0);
 
   if (router.isFallback) {
-    return <p>Carregando...</p>;
+    return <p>Loading...</p>;
   }
 
   return (
