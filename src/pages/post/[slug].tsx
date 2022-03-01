@@ -1,20 +1,13 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-
 import { RichText } from 'prismic-dom';
 import Prismic from '@prismicio/client';
-
 import { format } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR';
-
 import { FiCalendar, FiUser, FiClock } from 'react-icons/fi';
-
-import Header from '../../components/Header';
 import { Comments } from '../../components/Comments';
-
 import { getPrismicClient } from '../../services/prismic';
-
 import commonStyles from '../../styles/common.module.scss';
 import styles from './post.module.scss';
 
